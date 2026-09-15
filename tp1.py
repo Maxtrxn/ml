@@ -1,3 +1,4 @@
+import copy
 import numpy as np
 class Jeu_Hanoi:
     def __init__(self):
@@ -62,7 +63,7 @@ def effectue_deplacement(pic1, pic2, jeu):
         jeu.nombre_palet[pic2] += 1
 
 def situation_non_vue(pic1, pic2, jeu, situation_etudiee):
-    simulation = copy.deepcopy(jeu)
+    simulation = copy.deepcopy(jeu) # necessite import copy et sert à faire une copie profonde de jeu pour ne pas avoir une reference de jeu
     effectue_deplacement(pic1, pic2, simulation)
     nb = nombre_situation(simulation)
 
