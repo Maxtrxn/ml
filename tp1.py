@@ -33,7 +33,6 @@ def nombre_situation(jeu):
 
 def pic_vide(indice_pic, jeu):
     return jeu.pic[indice_pic, 0] == 0 and jeu.pic[indice_pic, 1] == 0 and jeu.pic[indice_pic, 2] == 0
-print(pic_vide(0, Jeu_final))
 
 def regle_jeu(pic1, pic2, jeu):
     if pic1 == pic2:
@@ -51,7 +50,6 @@ def regle_jeu(pic1, pic2, jeu):
     top_pic2 = jeu.pic[pic2, nbr_pic2 - 1]
     return top_pic1 < top_pic2
 
-print(regle_jeu(1, 0, jeu))
 
 def effectue_deplacement(pic1, pic2, jeu):
     if regle_jeu(pic1, pic2, jeu):
@@ -83,7 +81,15 @@ def moteur(jeu):
     situation_etudiee = [nombre_situation(jeu)]
 
     while nombre_situation(jeu) != code_final:
-        if regle_jeu(0, 1, jeu) and situation_non_vue(0, 1, jeu, situation_etudiee):
+        if regle_jeu(0, 2, jeu) and situation_non_vue(0, 2, jeu, situation_etudiee):
+            effectue_deplacement(0, 2, jeu)
+            situation_etudiee.append(nombre_situation(jeu))
+
+        elif regle_jeu(2, 0, jeu) and situation_non_vue(2, 0, jeu, situation_etudiee):
+            effectue_deplacement(2, 0, jeu)
+            situation_etudiee.append(nombre_situation(jeu))
+
+        elif regle_jeu(0, 1, jeu) and situation_non_vue(0, 1, jeu, situation_etudiee):
             effectue_deplacement(0, 1, jeu)
             situation_etudiee.append(nombre_situation(jeu))
 
@@ -99,8 +105,9 @@ def moteur(jeu):
             effectue_deplacement(1, 0, jeu)
             situation_etudiee.append(nombre_situation(jeu))
 
+
         else:
-            return "ERROR GROS PB LA VRAIMENT"
+            return "ERROR: pas de coups possible"
 
         nb_coups += 1
     return nb_coups
