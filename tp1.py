@@ -20,8 +20,12 @@ Jeu_final.pic[2, 2] = 1
 def nombre_situation(jeu):
     code = ""
     for i in [2, 1, 0]:
-        for j in [2, 1, 0]:
-            if jeu.pic[i,j] != 0 :
+        # on teste d'abord le disque 3 puis le 2 et le 1
+        # comme on veut le disque 3 a gauche et le disque 1 a droite
+        # dans l'ecriture du triplet pour un pic
+        for j in [3,2,1]:
+            # on regarde si le disque est sur le pic, si oui on ecris 1 sinon 0
+            if j in jeu.pic[i] :
                 code += "1"
             else:
                 code += "0"
@@ -82,21 +86,23 @@ def moteur(jeu):
         if regle_jeu(0, 1, jeu) and situation_non_vue(0, 1, jeu, situation_etudiee):
             effectue_deplacement(0, 1, jeu)
             situation_etudiee.append(nombre_situation(jeu))
+
         elif regle_jeu(1, 2, jeu) and situation_non_vue(1, 2, jeu, situation_etudiee):
             effectue_deplacement(1, 2, jeu)
             situation_etudiee.append(nombre_situation(jeu))
+
         elif regle_jeu(2, 1, jeu) and situation_non_vue(2, 1, jeu, situation_etudiee):
             effectue_deplacement(2, 1, jeu)
             situation_etudiee.append(nombre_situation(jeu))
+
         elif regle_jeu(1, 0, jeu) and situation_non_vue(1, 0, jeu, situation_etudiee):
             effectue_deplacement(1, 0, jeu)
             situation_etudiee.append(nombre_situation(jeu))
+
         else:
             return "ERROR GROS PB LA VRAIMENT"
 
         nb_coups += 1
-
     return nb_coups
-
 
 print(moteur(jeu))
