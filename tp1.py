@@ -68,3 +68,35 @@ def situation_non_vue(pic1, pic2, jeu, situation_etudiee):
     nb = nombre_situation(simulation)
 
     return nb not in situation_etudiee
+
+
+#si (NOT(pic_vide(indice_pic1,jeu))) et (regle_jeu(indice_pic1,indice_pic2,jeu)) et
+#   (situation_non_vue(indice_pic1,indice_pic2,jeu,situation_etudiee))
+
+def moteur(jeu):
+    nb_coups = 0
+    code_final = nombre_situation(Jeu_final)
+    situation_etudiee = [nombre_situation(jeu)]
+
+    while nombre_situation(jeu) != code_final:
+        if regle_jeu(0, 1, jeu) and situation_non_vue(0, 1, jeu, situation_etudiee):
+            effectue_deplacement(0, 1, jeu)
+            situation_etudiee.append(nombre_situation(jeu))
+        elif regle_jeu(1, 2, jeu) and situation_non_vue(1, 2, jeu, situation_etudiee):
+            effectue_deplacement(1, 2, jeu)
+            situation_etudiee.append(nombre_situation(jeu))
+        elif regle_jeu(2, 1, jeu) and situation_non_vue(2, 1, jeu, situation_etudiee):
+            effectue_deplacement(2, 1, jeu)
+            situation_etudiee.append(nombre_situation(jeu))
+        elif regle_jeu(1, 0, jeu) and situation_non_vue(1, 0, jeu, situation_etudiee):
+            effectue_deplacement(1, 0, jeu)
+            situation_etudiee.append(nombre_situation(jeu))
+        else:
+            return "ERROR GROS PB LA VRAIMENT"
+
+        nb_coups += 1
+
+    return nb_coups
+
+
+print(moteur(jeu))
