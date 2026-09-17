@@ -1,10 +1,11 @@
 import copy
 import numpy as np
 class Jeu_Hanoi:
-    def __init__(self, nb_pics=3):
+    def __init__(self, nb_pics=3, nb_palets=3):
         self.nb_pics = nb_pics
+        self.nb_palets = nb_palets
         self.pic = np.zeros([nb_pics,nb_pics],dtype=int)
-        self.nombre_palet = np.zeros(nb_pics,dtype=int)
+        self.nombre_palet = np.zeros(nb_palets,dtype=int)
         pass
 
     def __str__(self):
