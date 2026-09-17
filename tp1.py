@@ -1,10 +1,28 @@
 import copy
 import numpy as np
 class Jeu_Hanoi:
-    def __init__(self):
-        self.pic = np.zeros([3,3],dtype=int)
-        self.nombre_palet = np.zeros(3,dtype=int)
+    def __init__(self, nb_pics=3):
+        self.nb_pics = nb_pics
+        self.pic = np.zeros([nb_pics,nb_pics],dtype=int)
+        self.nombre_palet = np.zeros(nb_pics,dtype=int)
         pass
+
+    def __str__(self):
+        txt = ""
+
+        for i in range(self.nb_pics):
+            txt += f"Pic {i}: {self.pic[i]} nb_palet: {self.nombre_palet[i]}\n"
+
+        return txt
+        """ # version moins modulaire utilisable qu'avec 3 pic 3 palets
+        return(
+            f"Pic 0: {self.pic[0]} & nb_palet: {self.nombre_palet[0]}\n"
+            f"Pic 1: {self.pic[1]} & nb_palet: {self.nombre_palet[1]}\n"
+            f"Pic 2: {self.pic[2]} & nb_palet: {self.nombre_palet[2]}\n"
+
+        )
+        """
+
 jeu = Jeu_Hanoi()
 jeu.nombre_palet[0] = 3
 jeu.pic[0, 0] = 3
@@ -31,8 +49,10 @@ def nombre_situation(jeu):
                 code += "0"
     return int(code,2)
 
+
 def pic_vide(indice_pic, jeu):
     return jeu.pic[indice_pic, 0] == 0 and jeu.pic[indice_pic, 1] == 0 and jeu.pic[indice_pic, 2] == 0
+
 
 def regle_jeu(pic1, pic2, jeu):
     if pic1 == pic2:
@@ -72,21 +92,15 @@ def situation_non_vue(pic1, pic2, jeu, situation_etudiee):
     return nb not in situation_etudiee
 
 
-#si (NOT(pic_vide(indice_pic1,jeu))) et (regle_jeu(indice_pic1,indice_pic2,jeu)) et
-#   (situation_non_vue(indice_pic1,indice_pic2,jeu,situation_etudiee))
-
 def moteur(jeu):
     nb_coups = 0
     code_final = nombre_situation(Jeu_final)
     situation_etudiee = [nombre_situation(jeu)]
 
     while nombre_situation(jeu) != code_final:
+         #premiere optimisation : passe de 26 a 9 coups
         if regle_jeu(0, 2, jeu) and situation_non_vue(0, 2, jeu, situation_etudiee):
             effectue_deplacement(0, 2, jeu)
-            situation_etudiee.append(nombre_situation(jeu))
-
-        elif regle_jeu(2, 0, jeu) and situation_non_vue(2, 0, jeu, situation_etudiee):
-            effectue_deplacement(2, 0, jeu)
             situation_etudiee.append(nombre_situation(jeu))
 
         elif regle_jeu(0, 1, jeu) and situation_non_vue(0, 1, jeu, situation_etudiee):
@@ -105,11 +119,13 @@ def moteur(jeu):
             effectue_deplacement(1, 0, jeu)
             situation_etudiee.append(nombre_situation(jeu))
 
-
         else:
             return "ERROR: pas de coups possible"
 
         nb_coups += 1
+        print(f"Coup: {nb_coups}")
+        print(jeu)
     return nb_coups
 
-print(moteur(jeu))
+print(jeu)
+print(f"nb_coups: {moteur(jeu)}")
